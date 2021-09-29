@@ -23,6 +23,8 @@ import { WebcamModule } from 'ngx-webcam';
 import { CamaraComponent } from './Componentes/camara/camara.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { DatosUsuarioComponent } from './Componentes/datos-usuario/datos-usuario.component';
+import { PublicacionComponent } from './Componentes/publicacion/publicacion.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     EliminarArchivoComponent,
     AgregarAmigoComponent,
     VerArchivosComponent,
-    CamaraComponent
+    CamaraComponent,
+    DatosUsuarioComponent,
+    PublicacionComponent
   ],
   imports: [
     BrowserModule,
