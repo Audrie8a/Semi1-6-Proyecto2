@@ -1,0 +1,10 @@
+<div class="Fondo">    
+    <webcam [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+    <button mat-button class="Botones2" (click)="onNoClick()">Salir</button>
+    <button mat-button (click)="triggerSnapshot();" class="Botones2" [mat-dialog-close]="data" cdkFocusInitial>Tomar Foto</button>
+</div>
+
+<div class="snapshot" *ngIf="webcamImage">
+    <h2>Take your image or get another</h2>
+    <img [src]="webcamImage.imageAsDataUrl"/>
+  </div>
