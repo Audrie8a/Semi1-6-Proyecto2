@@ -1,8 +1,11 @@
-const bd = require('../BD/connection');
+//const bd = require('../BD/connection');
+const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+
 var crypto=require('crypto');
 const aws_keys= require('../Keys/creds');
 var AWS = require('aws-sdk');
 const s3 = new AWS.S3(aws_keys.s3);
+const cognito = new AmazonCognitoIdentity.CognitoUserPool(aws_keys.cognito);
 const { uuid } = require('uuidv4');
 
 exports.Prueba = async (req, res) => {
@@ -687,4 +690,112 @@ function obtenerFoto(id){
     });
   
   }
+  
+//--------------------------------------------------------PROYECTO 2 -----------------------------------------------------------
+
+exports.registroCognito = async(req,res)=>{
+    const {Nombre,Apellido,Usuario,Correo,Password,idFoto}= req.body
+    let hash=crypto.createHash('md5').update(Password).digest('hex');
+    
+    var attributelist = [];
+
+    var datanickname = {
+        Name: 'nickname',
+        Value: Usuario,
+    };
+    var attributenickname = new AmazonCognitoIdentity.CognitoUserAttribute(datanickname);
+  
+    attributelist.push(attributenickname);
+
+    var dataname = {
+        Name: 'name',
+        Value: Nombre,
+    };
+    var attributename = new AmazonCognitoIdentity.CognitoUserAttribute(dataname);
+  
+    attributelist.push(attributename);
+  
+    var dataemail = {
+        Name: 'email',
+        Value: Correo,
+    };
+    var attributeemail = new AmazonCognitoIdentity.CognitoUserAttribute(dataemail);
+  
+    attributelist.push(attributeemail);
+  
+    var dataApellido = {
+        Name: 'family_name',
+        Value: Apellido,
+    };
+    var attributeApellido = new AmazonCognitoIdentity.CognitoUserAttribute(dataApellido);
+  
+    attributelist.push(attributeApellido);
+  
+    var dataFoto = {
+        Name: 'custom:foto',
+        Value: idFoto,
+    };
+    var attributefoto = new AmazonCognitoIdentity.CognitoUserAttribute(dataFoto);
+  
+    attributelist.push(attributefoto);
+   
+    var datamodoBot = {
+        Name: 'custom:modoBot',
+        Value: "0",
+    };
+    var attributemodoBot = new AmazonCognitoIdentity.CognitoUserAttribute(datamodoBot);
+  
+    attributelist.push(attributemodoBot);   
+
+   
+  
+    cognito.signUp(Usuario,hash, attributelist, null, async (err, data) => {
+        
+        if (err) {
+            console.log(err);
+  
+            res.json(err.message || err);
+            return;
+        }
+        console.log(data);
+        res.json(req.body.username+' registrado');
+    });
+}
+
+  
+
+exports.IngresarCognito=async(req,res)=>{
+    const {Usuario,Password}= req.body
+    let hash=crypto.createHash('md5').update(Password).digest('hex');
+    var authenticationData = {
+        Username: Usuario,
+        Password: hash
+    };
+    var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
+        authenticationData
+    );
+    var userData = {
+        Username: Usuario,
+        Pool: cognito,
+    };
+    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+    cognitoUser.setAuthenticationFlowType('USER_PASSWORD_AUTH');
+    
+
+    cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: function (result) {
+            // User authentication was successful
+            res.json(result); //
+        },
+        onFailure: function (err) {
+            // User authentication was not successful
+            res.json(err);
+        },
+        mfaRequired: function (codeDeliveryDetails) {
+            // MFA is required to complete user authentication.
+            // Get the code from user and call
+            cognitoUser.sendMFACode(verificationCode, this);
+        },
+    });
+}
   

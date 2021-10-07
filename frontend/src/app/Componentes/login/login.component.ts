@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   showMainContent: Boolean = false;
 
   fotoTomada:string="";
+  fotoTomada2:string="";
 
   base64: string="Base64...";
   fileSelected?:Blob;
@@ -105,7 +106,7 @@ export class LoginComponent implements OnInit {
     this.showMainContent = this.showMainContent ? false : true;
   }
 
-  openDialog(): void {
+  openDialog(): void { //Guardar Foto Registro
     const dialogRef=this.dialog.open(CamaraComponent,{
       width:'710px',
       height: '550px',
@@ -117,6 +118,21 @@ export class LoginComponent implements OnInit {
       let arryaAux=this.fotoTomada.split(",",2)
       this.fotoTomada=arryaAux[1];
       console.log(this.fotoTomada)     
+    })
+  }
+
+  openDialog2(): void { //Comparar Foto con Registro
+    const dialogRef=this.dialog.open(CamaraComponent,{
+      width:'710px',
+      height: '550px',
+      data:{Archivo: this.fotoTomada}
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      console.log('The dialog was closed');
+      this.fotoTomada2=result.Archivo;    
+      let arryaAux=this.fotoTomada.split(",",2)
+      this.fotoTomada2=arryaAux[1];
+      console.log(this.fotoTomada2)     
     })
   }
 

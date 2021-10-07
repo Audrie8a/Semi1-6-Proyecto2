@@ -16,7 +16,7 @@ align-content: center;
 }
 
 .card{
-height: 370px;
+height: 520px;
 margin-top: auto;
 margin-bottom: auto;
 width: 400px;
@@ -144,4 +144,27 @@ background: linear-gradient(153deg, rgba(36, 21, 241, 0.233) 0%, rgba(219, 195, 
     margin-left: 50px;
     margin-right: 5px;
 
+}
+
+#FotoLog{
+    color: rgba(14, 11, 11, 0.671);
+    
+    background: white ;
+    border: transparent;
+    width: 352px;
+    border-radius: 2px;
+    padding: 5px 8px;    
+    margin-left: 4px;
+    height: 40px;
+    margin-right: 5px;
+    margin-top: 20px;
+}
+
+.Indicacion h1{
+    text-align: left; 
+    font-family: Arial Black; 
+    font-weight: bold; 
+    font-size: 15px; 
+    color: rgba(255, 255, 255, 0.74); 
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
 }

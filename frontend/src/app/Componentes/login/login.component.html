@@ -33,6 +33,9 @@
 
                             <div class="card-body">
                                 <form>
+                                    <div class="Indicacion">
+                                        <h1>Ingresa por Usuario y Contraseña!</h1>
+                                    </div>
                                     <div class="input-group form-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -46,6 +49,11 @@
                                         </div>
                                         <input [(ngModel)]="Passwords" name="Passwords" type="password" class="form-control" placeholder="password">
                                     </div>
+                                    <hr style="width:75%;" style="border-color:rgba(224, 211, 211, 0.76);">
+                                    <div class="Indicacion">
+                                        <h1>Ingresa por foto!</h1>
+                                    </div>
+                                    <button mat-menu-item (click)="openDialog2()" id="FotoLog" class="btn float-right">Tomar Foto</button>
                                     <div class="form-group">
                                         <input (click)="Login()" type="submit" value="Login" class="btn float-right login_btn">
                                     </div>

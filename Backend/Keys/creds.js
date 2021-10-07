@@ -21,9 +21,27 @@ let aws_keys = {
         accessKeyId: "",
         secretAccessKey: "" 
     },
+    cognito4:{
+        region:'us-east-2',
+        IdentityPoolId: '', 
+        UserPoolId: 'us-east-2_J9qA6aVG6',
+        ClientId: '2rhip9rm3scu7bflujt2gestci'
+    },
     cognito:{
-        UserPoolId: '',
-        ClientId: ''
+        region:'us-east-2',
+        IdentityPoolId: '', 
+        UserPoolId: 'us-east-2_INxchq7jz',
+        ClientId: '23l1nmqqufefkeitqc122b6irh'
+    },
+    cognito2:{
+        region:'us-east-2',
+        IdentityPoolId: '',
+        AuthParameters:{
+            USERNAME:"adminCognito",
+            PASSWORD:"didnlq38bgitm32pte8vmtub2rfkf98jq6h3g5tn1n7rd1e8e4p"
+            },       
+        UserPoolId: 'us-east-2_ImHx8w5i1',
+        ClientId: '1r3o1bgjc4vjrnd2ennrc7smju'
     }
 }
 module.exports = aws_keys

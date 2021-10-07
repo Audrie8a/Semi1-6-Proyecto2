@@ -18,6 +18,12 @@ router.post("/getFiles", usuario.getArchivos);
 router.post("/getMisFiles", usuario.getMisArchivos);
 router.post("/Eliminar", usuario.EliminarFile);
 router.post("/editFile", usuario.EditFile);
-module.exports = router
+
+
+
+//-------------------------------------------------PROYECTO2------------------------------------------------------
+
+router.post("/RegistroCognito", usuario.registroCognito)
+router.post("/LoginCognito", usuario.IngresarCognito)
 
 module.exports = router
