@@ -6,6 +6,7 @@ const aws_keys= require('../Keys/creds');
 var AWS = require('aws-sdk');
 const s3 = new AWS.S3(aws_keys.s3);
 const cognito = new AmazonCognitoIdentity.CognitoUserPool(aws_keys.cognito);
+const rek = new AWS.Rekognition(aws_keys.rekognition);
 const { uuid } = require('uuidv4');
 
 exports.Prueba = async (req, res) => {
@@ -652,7 +653,7 @@ function SubirArchivo(Archivo, idArchivo, tipo){
 function SubirFoto(id, foto){
     //carpeta y nombre que quieran darle a la imagen
     try {
-        var nombrei = "fotos/" + id +uuid()+".jpg";
+        var nombrei = "FotosPerfil/" + id +uuid()+".jpg";
         //se convierte la base64 a bytes
         let buff = new Buffer.from(foto, 'base64');
     
@@ -694,75 +695,82 @@ function obtenerFoto(id){
 //--------------------------------------------------------PROYECTO 2 -----------------------------------------------------------
 
 exports.registroCognito = async(req,res)=>{
-    const {Nombre,Apellido,Usuario,Correo,Password,idFoto}= req.body
-    let hash=crypto.createHash('md5').update(Password).digest('hex');
-    
-    var attributelist = [];
+    try{
+        const {Nombre,Apellido,Usuario,Correo,Password,idFoto}= req.body
+        let hash=crypto.createHash('md5').update(Password).digest('hex');
+        let Foto=SubirFoto(Usuario,idFoto);
+        if(Foto!="error"){
+            var attributelist = [];
 
-    var datanickname = {
-        Name: 'nickname',
-        Value: Usuario,
-    };
-    var attributenickname = new AmazonCognitoIdentity.CognitoUserAttribute(datanickname);
-  
-    attributelist.push(attributenickname);
+            var datanickname = {
+                Name: 'nickname',
+                Value: Usuario,
+            };
+            var attributenickname = new AmazonCognitoIdentity.CognitoUserAttribute(datanickname);
+            attributelist.push(attributenickname);
 
-    var dataname = {
-        Name: 'name',
-        Value: Nombre,
-    };
-    var attributename = new AmazonCognitoIdentity.CognitoUserAttribute(dataname);
-  
-    attributelist.push(attributename);
-  
-    var dataemail = {
-        Name: 'email',
-        Value: Correo,
-    };
-    var attributeemail = new AmazonCognitoIdentity.CognitoUserAttribute(dataemail);
-  
-    attributelist.push(attributeemail);
-  
-    var dataApellido = {
-        Name: 'family_name',
-        Value: Apellido,
-    };
-    var attributeApellido = new AmazonCognitoIdentity.CognitoUserAttribute(dataApellido);
-  
-    attributelist.push(attributeApellido);
-  
-    var dataFoto = {
-        Name: 'custom:foto',
-        Value: idFoto,
-    };
-    var attributefoto = new AmazonCognitoIdentity.CognitoUserAttribute(dataFoto);
-  
-    attributelist.push(attributefoto);
-   
-    var datamodoBot = {
-        Name: 'custom:modoBot',
-        Value: "0",
-    };
-    var attributemodoBot = new AmazonCognitoIdentity.CognitoUserAttribute(datamodoBot);
-  
-    attributelist.push(attributemodoBot);   
-
-   
-  
-    cognito.signUp(Usuario,hash, attributelist, null, async (err, data) => {
+            var dataname = {
+                Name: 'name',
+                Value: Nombre,
+            };
+            var attributename = new AmazonCognitoIdentity.CognitoUserAttribute(dataname);
+            attributelist.push(attributename);
         
-        if (err) {
-            console.log(err);
-  
-            res.json(err.message || err);
-            return;
-        }
-        console.log(data);
-        res.json(req.body.username+' registrado');
-    });
-}
+            var dataemail = {
+                Name: 'email',
+                Value: Correo,
+            };
+            var attributeemail = new AmazonCognitoIdentity.CognitoUserAttribute(dataemail);
+            attributelist.push(attributeemail);
+        
+            var dataApellido = {
+                Name: 'family_name',
+                Value: Apellido,
+            };
+            var attributeApellido = new AmazonCognitoIdentity.CognitoUserAttribute(dataApellido);
+            attributelist.push(attributeApellido);
+        
+            var dataFoto = {
+                Name: 'custom:foto',
+                Value: idFoto,
+            };
+            var attributefoto = new AmazonCognitoIdentity.CognitoUserAttribute(dataFoto);
+            attributelist.push(attributefoto);
+        
+            var datamodoBot = {
+                Name: 'custom:modoBot',
+                Value: "0",
+            };
+            var attributemodoBot = new AmazonCognitoIdentity.CognitoUserAttribute(datamodoBot);
+            attributelist.push(attributemodoBot);   
 
-  
+        
+        
+            cognito.signUp(Usuario,hash, attributelist, null, async (err, data) => {
+                
+                if (err) {
+                    console.log(err);
+        
+                    res.json(err.message || err);
+                    return;
+                }
+
+                //Aquí hacemos el query
+                //----------------------------
+                //----------------------------
+
+                console.log(data);
+                res.json(req.body.username+' registrado');
+            });
+        }else{
+            res.json("error");
+        }
+        
+    }catch(error) {
+        console.log("Error al crear Usuario  => ", error)
+        res.json("error")
+    }
+}
 
 exports.IngresarCognito=async(req,res)=>{
     const {Usuario,Password}= req.body
@@ -785,11 +793,11 @@ exports.IngresarCognito=async(req,res)=>{
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
             // User authentication was successful
-            res.json(result); //
+            res.json(Usuario); //
         },
         onFailure: function (err) {
             // User authentication was not successful
-            res.json(err);
+            res.json("false");
         },
         mfaRequired: function (codeDeliveryDetails) {
             // MFA is required to complete user authentication.
@@ -799,3 +807,26 @@ exports.IngresarCognito=async(req,res)=>{
     });
 }
   
+exports.IngresarRekognition=async(req,res)=>{
+    var imagen1 = req.body.imagen1;
+    var imagen2 = req.body.imagen2;
+    var params = {
+        
+        SourceImage: {
+            Bytes: Buffer.from(imagen1, 'base64')     
+        }, 
+        TargetImage: {
+            Bytes: Buffer.from(imagen2, 'base64')    
+        },
+        SimilarityThreshold: '80'
+        
+    
+    };
+    rek.compareFaces(params, function(err, data) {
+        if (err) {res.json({mensaje: err})} 
+        else {   
+            res.json({Comparacion: data.FaceMatches});      
+        }
+    });
+
+}

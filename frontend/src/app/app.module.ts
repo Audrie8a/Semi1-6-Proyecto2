@@ -25,6 +25,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { DatosUsuarioComponent } from './Componentes/datos-usuario/datos-usuario.component';
 import { PublicacionComponent } from './Componentes/publicacion/publicacion.component';
+import {TextFieldModule} from '@angular/cdk/text-field';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { PublicacionComponent } from './Componentes/publicacion/publicacion.comp
     MatMenuModule,
     WebcamModule,
     MatDialogModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    TextFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent]

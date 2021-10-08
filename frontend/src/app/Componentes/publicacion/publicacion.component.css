@@ -1,0 +1,199 @@
+
+
+  .FondoPublicacion  {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(rgba(95, 34, 112, 0.582),rgba(12, 1, 15, 0.123));
+    max-width: 500px;
+    margin: 0 auto 100px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  }
+  
+  
+  .Fondo img{
+    padding: 10px;
+    border:10px #320d33;
+    width: 350px;
+    height: 350px;
+    border-radius: 20px;
+    border-image-slice: 4.5 fill;
+  }
+
+  .custom-file-input {
+    color: transparent;
+  }
+  .custom-file-input::-webkit-file-upload-button {
+    visibility: hidden;
+  }
+  .custom-file-input::before {
+    content: 'Elegir Foto';
+    color: rgb(247, 239, 239);
+    display: inline-block;
+    background: -webkit-linear-gradient(top, #050008, #8a70a1);
+    border: 1px solid #999;
+    border-radius: 2px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 300;
+    font-size: 10pt;
+    width: 250px;
+    text-align: center;
+  }
+  .custom-file-input:hover::before {
+    border-color: black;
+  }
+  .custom-file-input:active {
+    outline: 0;
+  }
+  .custom-file-input:active::before {
+    background: -webkit-linear-gradient(top, #5e488a, #030105);
+  }
+  
+  
+  
+  
+  .Botones {
+    background: rgb(211, 211, 226);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #ddd;
+    font-family:sans-serif;
+    margin:5px
+  }
+  
+  .Filtro{
+    width: 1100px;
+    height: 30px;
+    background-color: #161a36ce;
+    color: aliceblue;
+    margin: 20px;
+  }
+  
+  .FormPublicaciones{
+      position: relative;
+      z-index: 1;
+      background: rgb(54,54,93);
+      background: linear-gradient(90deg, rgba(54,54,93,1) 0%, rgba(9,3,38,1) 100%);
+      max-width: 800px;
+      margin: 0 auto 100px;
+      padding: 45px;
+      text-align: center;
+      box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+      align-items:flex-start;
+      display: block;
+    }
+  
+    .FormPublicaciones textarea{
+      background-color: #594f666c;
+      margin: 10px;
+      width: 700px;
+      height: 90px;
+      color: #f5eded;
+      text-align: left;
+    }
+  
+    .FormPublicaciones label{
+      font-family: "Roboto", sans-serif;
+      border: 0;
+      margin: 0 0 0px;
+      margin-right: 5px;
+      float: left;
+      font-size: 20px; 
+      COLOR: #e7ebee; 
+      text-shadow: 0px 0px 9px #0d1f36;
+    }
+  
+    .FormPublicaciones input, .FormPublicaciones select{
+      font-family: "Roboto", sans-serif;
+      outline: 0;
+      background-color: #594f666c;
+      width: 600px;
+      border: 0;
+      margin: 0 0 15px;
+      padding: 15px;
+      box-sizing: border-box;
+      font-size: 14px;
+      color:#f5eded
+    }
+  
+    .custom-file-input2::before {
+      content: 'Seleccionar Foto';
+      color: rgba(236, 235, 235, 0.452);
+      background: transparent;
+      border: transparent;
+  
+  
+    }
+  
+    .custom-file-input2 {
+      color: transparent;
+      width: 600px;
+      border: 0;
+      margin: 0 0 15px;
+      padding: 15px;
+      box-sizing: border-box;
+      font-size: 14px;
+      color:#f5eded;
+      font-family: "Roboto", sans-serif;
+      outline: 0;
+    }
+    .custom-file-input2::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+  
+    .Botones2{
+      background:linear-gradient(rgb(243, 208, 154),rgba(211, 128, 34, 0.171));
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #ddd;
+    }
+    
+  
+    .Botones3{
+      background:linear-gradient(rgb(215, 177, 226),rgba(211, 128, 34, 0.171));
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #ddd;
+    }
+
+    .mat-expansion-panel-header.mat-expanded:focus {
+      background: rgb(54,54,93);
+      background: linear-gradient(90deg, rgba(54,54,93,1) 0%, rgba(9,3,38,1) 100%);
+      }
+  
+    .mat-expansion-panel-header.mat-expanded:focus h2{
+        color: white;
+        }
+    
+    .mat-expansion-panel-header{
+        background: rgb(7, 18, 56);       
+    }
+    
+    .mat-expansion-panel-header:active h2{
+        color: white;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+    
+    .mat-expansion-panel-header h1{
+        font-size: 25px;
+        color: white;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+    
+    .mat-expansion-panel-header h2{
+        font-size: 15px;
+        color:  rgb(7, 18, 56); 
+    }
+
+    .mat-card-header{
+      color: rgb(247, 243, 243)
+    }
+  
+  
+  

@@ -10,17 +10,19 @@ export class LoginService {
   constructor(private httpClient: HttpClient) { }
 
   Ingresar(Usuario:string, Password:string ){
-    const ruta= this.url+"Inicio/login";
+    const ruta= this.url+"Inicio/LoginCognito";
     const data ={Usuario,Password};
     return this.httpClient.post(ruta,data).toPromise();
 
   }
-  Registrar(Usuario:string,Nombre:string,Correo:string,Password:string,idFoto:string ){
-    const ruta= this.url+"Inicio/registro";
-    const data ={Nombre,Usuario,Correo,Password,idFoto};
+  Registrar(Usuario:string,Nombre:string,Apellido:string,Correo:string,Password:string,idFoto:string ){
+    const ruta= this.url+"Inicio/RegistroCognito";
+    //Nombre,Apellido,Usuario,Correo,Password,idFoto
+    const data ={Nombre,Apellido,Usuario,Correo,Password,idFoto};
     return this.httpClient.post(ruta,data).toPromise();
 
   }
+
 
   CargarImagen( id:string|null, foto: string ){
     const ruta = this.url+"subirfoto";

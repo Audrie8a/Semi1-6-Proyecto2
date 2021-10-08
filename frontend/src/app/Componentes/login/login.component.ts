@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
    //Registro
    Usr: string = '';
    Nombre: string = '';
+   Apellido: string = '';
    Correo: string ='';
    Pass: string = '';
    Pass2: string = '';
@@ -63,7 +64,7 @@ export class LoginComponent implements OnInit {
      this.onFileUpload();
      if (this.base64!="Base64..."){
       if (this.Pass==this.Pass2){
-        let respuesta = await this.loginService.Registrar(this.Usr,this.Nombre,this.Correo,this.Pass,this.base64);
+        let respuesta = await this.loginService.Registrar(this.Usr,this.Nombre,this.Apellido,this.Correo,this.Pass,this.base64);
         if(respuesta!='error'){
           alert("Se ha registrado correctamente el usuario!");          
           this.borrarRegistro();
@@ -140,6 +141,7 @@ export class LoginComponent implements OnInit {
       this.Usuario='';
       this.Passwords='';
       this.Usr='';
+      this.Apellido='';
       this.Correo='';
       this.Nombre = '';
       this.Pass = '';

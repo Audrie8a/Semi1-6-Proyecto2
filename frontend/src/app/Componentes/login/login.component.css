@@ -43,7 +43,7 @@ background-color: rgba(0,0,0,0.5) !important;
 .card-bodyRegistro label{
     color:rgba(192, 196, 7, 0.5);
     margin-left: 40px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .card-bodyRegistro input {
@@ -51,7 +51,7 @@ background-color: rgba(0,0,0,0.5) !important;
     height: 35px;
     margin-left: 50px;
     margin-right: 20px;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 .input-group-prepend span{
 width: 50px;
