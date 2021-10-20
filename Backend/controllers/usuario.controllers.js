@@ -1,4 +1,4 @@
-//const bd = require('../BD/connection');
+const bd = require('../BD/connectionLocal');
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 
 var crypto=require('crypto');
@@ -10,16 +10,10 @@ const rek = new AWS.Rekognition(aws_keys.rekognition);
 const { uuid } = require('uuidv4');
 
 exports.Prueba = async (req, res) => {
-    const conn = bd.SSHConnection.then(conn => {
-        //hacemos la query normal.
-        
-        conn.query(`SELECT * FROM Prueba`, function (err, result) {
-            if (err) throw err;
-            res.send(result);
-          });
-
-       
-    })
+    bd.query(`SELECT * FROM usuario`, function(err, result){
+        if(err) throw err;
+        return res.json(result);
+    });
 }
 
  exports.login =async(req,res)=>{
@@ -28,24 +22,16 @@ exports.Prueba = async (req, res) => {
         let hash=crypto.createHash('md5').update(Password).digest('hex');
         let sql = `select idUser from usuario as u where u.correo="${Usuario}" or  u.usuario="${Usuario}" and u.contra="${hash}"`
         
-        const conn = bd.SSHConnection.then(conn => {
-            //hacemos la query normal.
+        bd.query(sql, function (err, result) {
+            if (err) throw err;
             
-            conn.query(sql, function (err, result) {
-                if (err) throw err;
-                
-                if(result.length!=0){
-                    
-                   return res.json(result[0].idUser); 
-                }else{
-                    return res.json("false");
-                }                
-              });
+            if(result.length!=0){
+                return res.json(result[0].idUser); 
+            }else{
+                return res.json("false");
+            }                
+        });
     
-           
-        })
-        
-        
      } catch (error) {
          console.log("Error al loguearse  => ", error)
          res.json("error")
@@ -411,31 +397,23 @@ exports.getSolicitudes =async(req,res)=>{
     }
 }
 
- exports.registro =async(req,res)=>{
+exports.registro = async (req,res)=>{
     try {
-       const {Nombre,Usuario,Correo,Password,idFoto}= req.body
-       let Foto=SubirFoto(Usuario,idFoto);
-       if(Foto!="error"){
+        const {Nombre,Usuario,Correo,Password,idFoto}= req.body
+        let Foto=SubirFoto(Usuario,idFoto);
+        if(Foto != "error"){
             let hash=crypto.createHash('md5').update(Password).digest('hex');
-            let sql = `insert into usuario values(0,"${Nombre}","${Usuario}","${Correo}","${hash}","${Foto}")`
-            
-            const conn = bd.SSHConnection.then(conn => {
-                //hacemos la query normal.
-                
-                conn.query(sql, function (err, result) {
-                    if (err) throw err;             
-                    res.json("Registrado correctamente!");             
-                });
+            let sql = `insert into usuario values(0,"${Nombre}","${Usuario}","${Correo}","${hash}","${Foto}", 0)`
+            bd.query(sql, function(err, result){
+                if(err) throw err;
+                return res.json("bien registrados!!!");
+            });
+        } else {
+            res.json("error");
+        }
         
-            
-            })      
-       }else{
-           res.json("error");
-       }
-       
-       
     } catch (error) {
-        console.log("Error al crear Usuario  => ", error)
+        console.log("Error al insertar  => ", error)
         res.json("error")
     }
 }

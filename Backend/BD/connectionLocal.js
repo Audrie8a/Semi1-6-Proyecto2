@@ -1,16 +1,18 @@
 var mysql = require('mysql');
+
 var connection = mysql.createConnection({
-   host: 'localhost',
+   host: 'ec2-54-242-232-167.compute-1.amazonaws.com',//'localhost'
    user: 'root',
-   password: '',
-   database: 'Semi1',
+   password: '12345678',
+   database: 'semi1PR2',//'semi1'1
    port: 3306
 });
-exports.connection.connect(function(error){
+
+connection.connect(function(error){
    if(error){
       throw error;
    }else{
       console.log('Conexion correcta.');
    }
 });
-connection.end();
+module.exports = connection;
