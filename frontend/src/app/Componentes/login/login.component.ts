@@ -61,7 +61,9 @@ export class LoginComponent implements OnInit {
    }
 
    async Registrar(){
-     this.onFileUpload();
+     if(this.fotoTomada==''){
+      this.onFileUpload();
+     }
      if (this.base64!="Base64..."){
       if (this.Pass==this.Pass2){
         let respuesta = await this.loginService.Registrar(this.Usr,this.Nombre,this.Apellido,this.Correo,this.Pass,this.base64);
@@ -118,6 +120,7 @@ export class LoginComponent implements OnInit {
       this.fotoTomada=result.Archivo;    
       let arryaAux=this.fotoTomada.split(",",2)
       this.fotoTomada=arryaAux[1];
+      this.base64=this.fotoTomada;
       console.log(this.fotoTomada)     
     })
   }
@@ -147,5 +150,7 @@ export class LoginComponent implements OnInit {
       this.Pass = '';
       this.Pass2='';
       this.Foto = '';
+      this.fotoTomada='';
+      this.fotoTomada2='';
     }
 }
