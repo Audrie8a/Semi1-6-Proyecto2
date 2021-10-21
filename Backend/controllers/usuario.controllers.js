@@ -1,4 +1,6 @@
 const bd = require('../BD/connectionLocal');
+
+
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 
 var crypto=require('crypto');
@@ -68,7 +70,7 @@ exports.getSugerencias =async(req,res)=>{
         const {idUser, Usuario, tipo}= req.body
         let sql ="";
         if(tipo==0){//Obtener Sugerencias
-            sql= `select idUser, nombre, usuario, correo, contra, foto from usuario as u
+            sql= `select idUser, Concat(nombre,' ', apellido)as nombre, usuario, correo, contra, foto from usuario as u
                 where idUser not in 
                 (select user1 from amigo
                 where user2=${idUser})
@@ -78,7 +80,7 @@ exports.getSugerencias =async(req,res)=>{
                 and idUser!=${idUser}
                 `;
         }else{//Obtener Sugerencias Filtrado
-            sql= `select idUser, nombre, usuario, correo, contra, foto from usuario as u
+            sql= `select idUser, Concat(nombre,' ', apellido)as nombre, usuario, correo, contra, foto from usuario as u
                 where idUser not in 
                 (select user1 from amigo
                 where user2=${idUser})
@@ -139,7 +141,7 @@ exports.getAmigos =async(req,res)=>{
        console.log(Usuario);
        let sql ="";
        if(tipo==0){//Obtener Amigos
-            sql= `select idUser, nombre, usuario, correo, contra, foto from usuario as u
+            sql= `select idUser, Concat(nombre,' ', apellido)as nombre, usuario, correo, contra, foto from usuario as u
             where idUser in 
             (select user1 from amigo
             where user2=${idUser}
@@ -150,7 +152,7 @@ exports.getAmigos =async(req,res)=>{
             and estado=0)
             `;
        }else{//Obtener Amigos Filtrado
-            sql= `select idUser, nombre, usuario, correo, contra, foto from usuario as u
+            sql= `select idUser, Concat(nombre,' ', apellido)as nombre, usuario, correo, contra, foto from usuario as u
             where idUser in 
             (select user1 from amigo
             where user2=${idUser}
@@ -399,28 +401,42 @@ exports.IngresarCognito=async(req,res)=>{
 }
   
 exports.IngresarRekognition=async(req,res)=>{
-    var imagen1 = req.body.imagen1;
-    var imagen2 = req.body.imagen2;
-    var params = {
+    try {
+        const {id}= req.body
+        var imagen1="";
+        var base64="";
+        let sql = `select foto from usuario where usuario="${id}"`;
+        bd.query(sql, function(err, result){
+            if(err) throw err;
+            if(result.length!=0){            
+                imagen1=result[0].foto;
+                var getParams = {
+                    Bucket: 'appweb-6p1',
+                    Key: imagen1
+                  }
+                  s3.getObject(getParams, function (err, data) {
+                    if (err)
+                      return "error";
+                    //de bytes a base64
+                    var dataBase64 = Buffer.from(data.Body).toString('base64');
+                    let aux={
+                        "foto": String(dataBase64)
+                    }
+                    return res.send(aux);
+                
+                  });
+            }else{
+                return res.json("error");
+            } 
+        }); 
         
-        SourceImage: {
-            Bytes: Buffer.from(imagen1, 'base64')     
-        }, 
-        TargetImage: {
-            Bytes: Buffer.from(imagen2, 'base64')    
-        },
-        SimilarityThreshold: '80'
-        
-    
-    };
-    rek.compareFaces(params, function(err, data) {
-        if (err) {res.json({mensaje: err})} 
-        else {   
-            res.json({Comparacion: data.FaceMatches});      
-        }
-    });
-
+    } catch (error) {
+        return res.json("error");
+    }
+     
 }
+
+
 
 
 //Funciones
@@ -446,3 +462,23 @@ function SubirFoto(id, foto){
     
     
 }
+
+
+//obtener foto en s3
+function obtenerFoto(id){    
+    //direcccion donde esta el archivo a obtener
+    
+    var getParams = {
+      Bucket: 'appweb-6p1',
+      Key: id
+    }
+    s3.getObject(getParams, function (err, data) {
+      if (err)
+        return "error";
+      //de bytes a base64
+      var dataBase64 = Buffer.from(data.Body).toString('base64');
+      return dataBase64 ;
+  
+    });
+  
+  }

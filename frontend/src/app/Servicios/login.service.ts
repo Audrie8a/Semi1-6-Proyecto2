@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,30 @@ export class LoginService {
     return this.httpClient.post(ruta,data).toPromise();
 
   }
+
+  IngresarFoto(id:string, imagen1: string){
+    const ruta = this.url+"Inicio/LoginRekognition";
+    const data ={id};    
+    return this.httpClient.post(ruta,data).toPromise();    
+  }
+  IngresarFoto_Rekognition(imagen1:string, imagen2: string){
+    
+    let extension='jpg';
+    let similitud=90;
+    const data2= {imagen1,imagen2,extension,similitud}
+    let respuesta: any="";
+
+    return this.httpClient.post("https://7ptzyp3boh.execute-api.us-east-2.amazonaws.com/desa",data2,{
+      headers: new HttpHeaders().set("content-type","application/json")
+    }).subscribe(
+      res =>  respuesta=res,
+      err =>  respuesta="error"
+      
+    )
+
+    return respuesta;
+  }
+  
   Registrar(Usuario:string,Nombre:string,Apellido:string,Correo:string,Password:string,idFoto:string ){
     const ruta= this.url+"Inicio/RegistroCognito";
     //Nombre,Apellido,Usuario,Correo,Password,idFoto

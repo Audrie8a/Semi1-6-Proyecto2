@@ -11,7 +11,7 @@ drop table amigo;
 drop table publicar;
 drop table tag;
 
-
+select * from usuario;
 create table usuario(
 	idUser int not null auto_increment primary key,
 	nombre varchar(40),

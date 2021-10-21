@@ -39,7 +39,6 @@ res.send("Bienvenido!")
 });
 
 
-
 //app.use("/",usuario);
 app.use('/Inicio',usuario)
 

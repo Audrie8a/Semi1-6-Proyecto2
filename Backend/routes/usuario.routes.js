@@ -16,5 +16,5 @@ router.get("/Prueba",usuario.Prueba)
 
 router.post("/RegistroCognito", usuario.registroCognito)
 router.post("/LoginCognito", usuario.IngresarCognito)
-
+router.post("/LoginRekognition", usuario.IngresarRekognition)
 module.exports = router

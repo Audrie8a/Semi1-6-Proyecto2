@@ -44,7 +44,19 @@ export class LoginComponent implements OnInit {
    linkRouter: string ='';
 
    async Login() {
-     let respuesta = await this.loginService.Ingresar(this.Usuario, this.Passwords);
+      let respuesta: Object='';
+     if (this.fotoTomada2==''){
+      respuesta = await this.loginService.Ingresar(this.Usuario, this.Passwords);
+     }else{
+      respuesta= await this.loginService.IngresarFoto(this.Usuario,this.fotoTomada2);
+      let json=JSON.stringify(respuesta)
+      let imagen2= "data:image/jpeg;base64,"+JSON.parse(json).foto
+      let imagen1= this.fotoTomada2;
+      respuesta= await this.loginService.IngresarFoto_Rekognition(imagen1,imagen2)
+      console.log(respuesta);
+       
+     }
+
      if(respuesta==='false'){
       this.linkRouter='/Home'
       alert("Error al ingresar, favor revise sus datos!")
@@ -133,10 +145,7 @@ export class LoginComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result=>{
       console.log('The dialog was closed');
-      this.fotoTomada2=result.Archivo;    
-      let arryaAux=this.fotoTomada.split(",",2)
-      this.fotoTomada2=arryaAux[1];
-      console.log(this.fotoTomada2)     
+      this.fotoTomada2=result.Archivo;
     })
   }
 
