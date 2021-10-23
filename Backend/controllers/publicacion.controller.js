@@ -66,7 +66,8 @@ exports.getPublicaciones =async(req,res)=>{
       where user1=${idUser}
       and estado=0)
       or idUsu=${idUser}
-      );`;
+      )
+      order by fecha desc;`;
 
 
       bd.query(sql, function(err, result){
@@ -107,7 +108,8 @@ exports.getPublicacionesFiltradas =async(req,res)=>{
       where user1=${idUser}
       and estado=0)
       or idUsu=${idUser}
-      );`;
+      )
+      order by fecha desc;`;
 
 
       bd.query(sql, function(err, result){
