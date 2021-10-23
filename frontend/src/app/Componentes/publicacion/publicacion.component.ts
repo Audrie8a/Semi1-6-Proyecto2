@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit,ElementRef,ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser'; 
+import { PublicacionService } from 'src/app/Servicios/publicacion.service';
 
 @Component({
   selector: 'app-publicacion',
@@ -8,43 +11,31 @@ import { Component, OnInit } from '@angular/core';
 export class PublicacionComponent implements OnInit {
 
   Publicaciones: any;
+  Tags: any;
+  Usuario:string | null="";
   //Publicacion
-  txtTag:string ='';
   txtPublicacion: string = '';
-  ImagenP: string = '';
-  lstTags=[''];
-  Tags='';
+  base64: string="Base64...";
+  fileSelected?:Blob;
+  ImagenP:string = '';
   //Filtrar
   TagsF='';
   txtTagF:string='';
 
-  constructor() { }
+  @ViewChild('fileInput',{static:false}) fileInput!: ElementRef;  
+  constructor(private sant:DomSanitizer,
+    public publicacionService:PublicacionService ,
+    public _routre:Router,
+    public route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    let usuario=this.route.snapshot.paramMap.get("id");
+    this.getTags();
+    this.Usuario=usuario;
+    this.getArchivos();
   }
 
-  async crearPublicacion(){
-    if(this.ImagenP!=''){
-      //alert(this.ImagenP);
-      if(this.Tags==''){
-        this.Tags='Ninguno'
-      }
-      let respuesta="";//await this.usuarioService.crearPublicacion(this.Usr,this.txtPublicacion, this.ImagenP.substr(12,this.ImagenP.length),this.Tags );
-      if(respuesta=="true"){
-        //this.onFileUpload2();
-        this.ngOnInit();
 
-        alert("Publicado!");
-      }else{
-        alert("Error al Publicar!");
-      }
-    }else{
-      alert("Se necesita una imagen para publicar!");
-    }
-    this.Tags='';
-    this.ImagenP='';
-    this.txtPublicacion='';
-  }
 
   async FiltrarPublicacion(){
 
@@ -57,42 +48,68 @@ export class PublicacionComponent implements OnInit {
     //this.ngOnInit();
   }
 
-  addTagFiltro(){
-    if(this.txtTagF!=''){
-      if(this.txtTagF[0]=='#'){
-        let splitted=this.txtTagF.split(" ");
-        splitted.forEach(element => {
-          if(element!=''){
-            this.TagsF+="'"+element+"'"+"**";
-          }
-        });
-        this.FiltrarPublicacion();
-        alert("Filtrando...");
-        this.txtTagF="";
-      }else{
-        alert("Error, se necesita iniciar con un #");
-      }
+  onFileUpload(){    
+    this.fileSelected= this.fileInput.nativeElement.files[0];
+    //const imageBlob=this.fileInput.nativeElement.files[0];
+    //this.imageUrl=this.sant.bypassSecurityTrustUrl(window.URL.createObjectURL(this.fileSelected)) as string;
 
-    }else{
-      alert('No se puede agregar un tag vacío!');
+    this.convertFileToBase64();
+    
+    if (this.base64!="Base64..."){
+      alert("Subiendo Archivo!");
+      let arryaAux=this.base64.split(",",2)
+      this.base64=arryaAux[1];
+      
+      //alert(this.archivo+' antes de');
+      let respuesta=this.publicacionService.crearPublicacion(this.txtPublicacion,this.Usuario,this.base64);
+      let json=JSON.stringify(respuesta)
+      let obj= JSON.parse(json)
+      if (obj!= "error" ){
+        alert("Publicacion Creada!");
+        window.location.reload();
+        this.txtPublicacion='';
+        this.base64="Base64...";
+        this.fileSelected=undefined;
+        this.fileInput.nativeElement.files[0]=undefined;
+        
+      }
     }
+
   }
 
-  addTag(){
-    if(this.txtTag!=''){
-      if(this.txtTag[0]=='#'){
-        this.Tags+=this.txtTag+"**";
-        alert("Tag Agregado!");
-        this.txtTag="";
-      }else{
-        alert("Error, se necesita iniciar con un #");
-      }
-
-    }else{
-      alert('No se puede agregar un tag vacío!');
-    }
+  convertFileToBase64(){
+    
+    let reader= new FileReader();
+    reader.readAsDataURL(this.fileSelected as Blob);
+    
+    reader.onloadend=()=>{
+      this.base64=reader.result as string;
+      //console.log(this.base64+'/--*-*-*');
+    }   
   }
   
+
+  async getArchivos(){
+    let aux= await this.publicacionService.getPublicacion(this.Usuario);
+    let json=JSON.stringify(aux)
+    let obj= JSON.parse(json)
+    this.Publicaciones = obj;
+  }
+
+  async getTags(){
+    let aux= await this.publicacionService.getTags();
+    let json=JSON.stringify(aux)
+    let obj= JSON.parse(json)
+    this.Tags = obj;
+  }
+
+  async getPublicacionesFiltradas (){
+    let aux= await this.publicacionService.getPublicacionFiltrada(this.Usuario,this.TagsF);
+    let json=JSON.stringify(aux)
+    let obj= JSON.parse(json)
+    this.Publicaciones=obj;
+
+  }
   borrarFiltros(){
     this.ngOnInit();
   }

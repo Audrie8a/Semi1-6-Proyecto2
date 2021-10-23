@@ -25,9 +25,9 @@
             cdkAutosizeMaxRows="5"></textarea>
           <br>        
           <br>
-          <input #fileInput2 type="file"   [(ngModel)]="ImagenP"   name="ImagenP" class="custom-file-input2" >
+          <input #fileInput type="file"   [(ngModel)]="ImagenP"   name="ImagenP" class="custom-file-input2" >
           <br>
-          <button class="Botones" (click)="crearPublicacion()">Publicar</button>
+          <button class="Botones" (click)="onFileUpload()">Publicar</button>
         </div>
 
 
@@ -45,22 +45,24 @@
         </mat-expansion-panel-header>
 
         <br>
-        <input matInput class="Filtro" [(ngModel)]="txtTagF" name="txtTagF"placeholder="Filtrar">
-        <button class="Botones" (click)="addTagFiltro()">Filtrar</button>
+        <select  class="Filtro" name="country" [(ngModel)]="TagsF"  >
+          <option *ngFor="let tag of Tags"  name="TagsF"  ngValue="{{tag.tag}}">{{tag.tag}}</option>
+        </select>
+        <button class="Botones" (click)="getPublicacionesFiltradas()" >Filtrar</button>
         <button  class="Botones" (click)="borrarFiltros()">Borrar Filtros</button>
         <br> <br> <br>
         <mat-card  *ngFor="let publi of Publicaciones" class='FondoPublicacion'>
           <mat-card-header>
-            <mat-card-title>{{publi.Usuario}}</mat-card-title>
-            <mat-card-subtitle>{{publi.Fecha}}</mat-card-subtitle>
+            <div mat-card-avatar class="example-header-image" style="background-image: url('https://appweb-6p1.s3.us-east-2.amazonaws.com/{{publi.foto}}')"></div>
+            <mat-card-title>{{publi.usuario}}</mat-card-title>
+            <mat-card-subtitle>{{publi.fecha}}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
             <p>
-              {{publi.Texto}}
-              {{publi.Tags}}
+              {{publi.texto}}
             </p>
           </mat-card-content>
-          <img mat-card-image src="http://localhost:3000/{{publi.Imagen}}" style="width: 350px; height: 350px; " >
+          <img mat-card-image src="{{publi.Arch}}" style="width: 350px; height: 350px; " >
           <mat-card-actions>
             <button mat-button>LIKE</button>
             <button mat-button>SHARE</button>

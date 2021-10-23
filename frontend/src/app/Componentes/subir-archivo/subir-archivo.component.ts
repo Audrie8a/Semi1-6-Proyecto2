@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit,ElementRef,ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser'; 
 import { SubirArchivoService } from 'src/app/Servicios/subir-archivo.service';
-import { ThisReceiver } from '@angular/compiler';
+
 
 @Component({
   selector: 'app-subir-archivo',

@@ -195,5 +195,7 @@
       color: rgb(247, 243, 243)
     }
   
-  
-  
+    .example-header-image {
+      
+      background-size: cover;
+    }

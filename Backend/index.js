@@ -1,4 +1,5 @@
 const usuario=require ('./routes/usuario.routes')
+const Publicacion= require('./routes/publicacion.routes')
 const aws_keys= require('./Keys/creds');
 const SubirImagen=require('./routes/upload.routes');
 
@@ -41,5 +42,6 @@ res.send("Bienvenido!")
 
 //app.use("/",usuario);
 app.use('/Inicio',usuario)
+app.use('/Publicacion',Publicacion)
 
 
