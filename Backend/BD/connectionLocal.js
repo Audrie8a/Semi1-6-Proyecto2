@@ -1,7 +1,11 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
+<<<<<<< Updated upstream
    host: 'ec2-54-172-85-119.compute-1.amazonaws.com',//'localhost'
+=======
+   host: 'ec2-35-175-151-225.compute-1.amazonaws.com',//'localhost'
+>>>>>>> Stashed changes
    user: 'root',
    password: '12345678',
    database: 'semi1PR2',//'semi1'1
