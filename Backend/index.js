@@ -1,9 +1,6 @@
 const usuario=require ('./routes/usuario.routes')
-<<<<<<< Updated upstream
 const Publicacion= require('./routes/publicacion.routes')
-=======
 const chat = require ('./routes/chat.routes')
->>>>>>> Stashed changes
 const aws_keys= require('./Keys/creds');
 const SubirImagen=require('./routes/upload.routes');
 
@@ -41,9 +38,7 @@ res.send("Bienvenido!")
 
 //app.use("/",usuario);
 app.use('/Inicio',usuario)
-<<<<<<< Updated upstream
 app.use('/Publicacion',Publicacion)
-=======
 app.use('/Chat', chat)
 
 app.get("/ElChat", function(req, res){
@@ -63,7 +58,6 @@ io.on('connection', function(socket) {
     });
      
 });
->>>>>>> Stashed changes
 
 http.listen(port, function() {
     console.log('listening on *:3000');
