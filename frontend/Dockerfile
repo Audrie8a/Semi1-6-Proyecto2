@@ -11,6 +11,6 @@ RUN npm install
 
 COPY . /usr/src/app
 
-CMD ["npm", "start2" ]
+CMD ["npm", "start" ]
 
 EXPOSE 4200
