@@ -30,7 +30,7 @@ app.use(morgan('dev'))
 // const s3 = new AWS.S3(aws_keys.s3);
 // const cognito = new AmazonCognitoIdentity.CognitoUserPool(aws_keys.cognito);
 
-//Rutas
+//Rutas TOKEN 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
 app.get('/', function(req,res){
 res.send("Bienvenido!")
 });

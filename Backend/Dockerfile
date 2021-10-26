@@ -1,11 +1,16 @@
-FROM node:14
+#base image
+FROM node:12-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
 
-COPY package*.json ./
-
+# install and cache app dependencies
+COPY package.json /usr/src/app/
 RUN npm install
 
-COPY . .
+COPY . /usr/src/app
 
-CMD ["node", "index.js"]
+CMD [ "node", "index.js" ]
+
+EXPOSE 3000
