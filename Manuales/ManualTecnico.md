@@ -4,7 +4,7 @@
 ### Facultad de Ingeniería 
 ### Escuela de Ciencias y Sistemas 
 ### Semi 1 
-### Proyecto 1 - Grupo 6
+### Proyecto 2 - Grupo 6
 
 
 
@@ -12,10 +12,7 @@
 
 <br/>
 Audrie Annelisse del Cid Ochoa 201801263<br/>
-Diego Alejandro Vasquez
-
-# **Link acceso pagina web S3**
-https://archivos-6p1.s3.us-east-2.amazonaws.com/index.html
+Diego Alejandro Vasquez 201602421
 
 # **Objetivos del Manual**
 
@@ -32,22 +29,9 @@ https://archivos-6p1.s3.us-east-2.amazonaws.com/index.html
 
 A continuación se explicará de que servicios aws consta la arquitectura y para que se utilizaron.
 
-### VPC
-Se hizo uso del servicio VPC que brinda aws para la creación de un red privada aplicada en el proyecto, la cual esta compuesta por una subred privada y 2 subredes públicas.
-
-Para el caso de la subred privada fue utilizada para desplegar la base de datos de la cual se hablará más adelante.
-Mientras que las subredes públidas fueron utilizadas para desplegar los servidores.
-
-### RDS
-
-Como anteriormente se mencionó el uso de una base de Datos. Dicha base de datos fue implementada mediante este servicio, siendo necesaria una base relacional. En este caso se utilizó mysql como base de datos y se configuró para que se desplegara en una red privada donde sólo los usuarios involucrados pudieran acceder, esto mediante una configuración de reglas de seguridad de entrada.
-
 ### EC2
 
-Se utilizó el servicio de EC2 instancias de aws para el despliegue de 2 máquinas virtuales las cuales mediante la clonación de repositorios creados anteriormente en github, sirven como servidores de la aplicación. Más adelante se mencionará como se maneja el control de estos servidores.
-
-### Load Balancer
-Este servicio fue utilizado para el manejo de la peticiones hacia los 2 servidores creados. Permite un mejor flujo en la comunciación hacia dichos servidores.
+Se utilizó el servicio de EC2 instancias de aws para el despliegue de 3 máquinas virtuales las cuales mediante la clonación de repositorios creados anteriormente en github, sirven como servidores de la aplicación. Más adelante se mencionará como se maneja el control de estos servidores.
 
 ### S3
 Este servicio fue utilizado en esta arquitectura para el despliegue y acceso de recursos de forma pública y se utilizó 2 veces para diferentes funciones.
@@ -65,72 +49,12 @@ Para la realización de este proyecto se crearon 2 usuarios, los cuales son:
 
 - *Semi1_Diego:* Este usuario fue creado debido a que este proyecto fue realizado por 2 personas, se encesitaba que otra persona ademas del usuario raíz obtuviera permiso para manejar los servicios que consumiría la aplicación. Este usuario contiene todos los permisos de administarador IAM.
 - *s3_user:* Este usuario fue creado para el manejo de todo lo relacionado al servicio s3. Se utilizó en los servidores para que pudieran tener acceso a dicho servicio. Este usuario contiene todos los permisos para el acceso a S3.
+- *Diego_Vasquez2:* Se utilizo este usuario para almacenar 3 instancias EC2 cada instancia almacena una parte del proyecto.
 
 <br clear="left"/><br clear="left"/><br/>
 
 
 # **Capturas y descripción de como se configuro cada servicio**
-
-## VPC
-Para la configuración de este servicio se debe realizar los siguientes pasos.
-### 1. Crear VPC
-
-Se debe ir al servicio Vpc y elegir la opción "Crear VPC"
-<img src="./images/a.jpeg" align="left" width="600" height="100" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
-
-Aparecerá la siguiente ventana
-</br>
-
-<img src="./images/b.jpeg" align="left" width="400" height="400" style="margin-right: 15px;"/>
-Aquí se debe colocar el nombre de la VPS a crear  y se deja todo por default
-<br clear="left"/><br/>
-
-### 2. Crear subred
-En la misma sección del servicio VPC, elegir la opción de subnets. Ya dentro de esto elegir la opción "Crear Subnet", aparecerá la siguiente ventana.
-
-<img src="./images/d.jpeg" align="left" width="400" height="400" style="margin-right: 15px;"/>
-- Se debe elegir la VPC creada en el paso anterior y luego se procede a crear las subnets deseadas.<br/>
-- En este caso se crearon 2 subnets públicas, las cuales cuantan con la siguiente dirección ip: 10.0.1.0 y 10.0.3.0
-<br clear="left"/><br/>
-Al finalizar la creación de las subnets públicas se debe activar la opción de "Modify auto-assign IP settings" ubicada en las opciónes de "Accion" de la ventana.
-
-En el caso de la subnet privada, se designó la subnet creada por defecto y se le asignó una ip, la cual fue la: 10.0.5.0
-
-<img src="./images/c.jpeg" align="left" width="900" height="100" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
-### 3. Crear Internet gateway
-
-Para crear el internet gateway se debe dirigir a la sección de "Internet Gateways" ubicada dentro del servicio de VPC. 
-Aparecerá la siguiente ventana, acá solo debe ingresar el nombre con el que desea guardarlo.
-
-<img src="./images/e.jpeg" align="left" width="400" height="400" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
-Una vez creado se debe activar la opción de "atach VPC" , la cual aparece en la sopciones de "actions".
-<img src="./images/f.jpeg" align="left" width="800" height="100" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
-### 4. Rout Tables
-
-En la misma ventana del servicio de VPC, en la opción de "Rout Tables" elegir la opción de "Create rout table", aparecerá la siguiente ventana.
-<img src="./images/g.jpeg" align="left" width="400" height="400" style="margin-right: 15px;"/>
-- Se debe elegir la VPC creada anteriormente y colocar un nombre. Este paso es tanto para la subnets públicas como para la privada.
-<br clear="left"/><br/>
-
-Una vez realizado esto seleccionamos la subnet pública y nos dirigimos a su configuración de "Routes". 
-Elegimos la opción de "Edit Routes" y colocamos una nueva regla seleccionando el Internet gateway previamente creado.
-
-Luego elegimos la opción de " Subnet associations", aquí elegimos las subnets que deseamos estén en esta configuración, así que elegimos las subnets con los siguientes ids 10.0.1.0 y 10.0.3.0, lo mismo con la privada, pero en ese caso asocia la subnet con ip 10.0.5.0
-<img src="./images/h.jpeg" align="left" width="800" height="140" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
-Con esto ya tenemos configuradas nuestras "Rout Tables"
-
-<img src="./images/i.jpeg" align="left" width="800" height="140" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
 
 ## EC2
 
@@ -143,20 +67,14 @@ Una vez en el panel de pares de llaves elegimos crear una nueva, le colocamos un
 
 ### 2. Crear security group
 
-Aquí creamos los grupos de seguridad que nuestras instancias van a requerir.
-Para el caso del proyecto creamos 2, la primera fue para que no hubieran problemas de acceso a las EC2 desde el computador de los involucrados mediante la conexión ssh. Se configuró en el puerto 22 y se dejó establecida nuestras ips.
+Aquí se creo un grupo de seguridad que almacena todas las ips de las maquinas, para que estas se conecten entre si las conecciones tipo Mysql/Aurora son para poder conectarse a la instancias mysql. Y los TCP pesonalizados son para poder ejecutar tanto el frontend, como las peticiones del backend en los puertos 4200 y 3000 respectivamente.
 <img src="./images/e1.jpeg" align="left" width="900" height="200" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
-El segundo grupo se configuró para que fuera de acceso público en el puerto 3000 que es el puerto donde se desplegarán los servidores.
-También se les dio acceso al puerto de la base de datos.
-<img src="./images/e2.jpeg" align="left" width="900" height="200" style="margin-right: 15px;"/>
 <br clear="left"/><br/>
 
 ### 3. Lanzar EC2
 
 Una vez todo esto estuvo configurado se procedio a crear las instancias EC2. 
-La configuración de acontinuación se realizará, fue la misma para las 2 instancias creadas. La única diferencias es al elegir la subnet pública dado que no se deben elegir las mismas subnets, sino que una diferente para cada instancia.
+La configuración de acontinuación se realizará, fue para la primera instancia. ahora con la primera instancia creada, y con docker instalado en esta, se procedio a crear una imagen de dicha EC2, esta imagen fue usada para crear las otras 2 instancias, con las mismas caracteristicas a la primera y al probarlas estas ya tenina docker instalado.
 
 <img src="./images/e3.jpeg" align="left" width="900" height="200" style="margin-right: 15px;"/>
 - En las opciones de EC2 nos ubicamos en instancias y seleccionamos la opción de "Lanzar instancia"
@@ -171,84 +89,22 @@ A continuacón debemos elegir la opción del tipo de instancia. Para el proyecto
 <img src="./images/e5.jpeg" align="left" width="1500" height="500" style="margin-right: 15px;"/>
 <br clear="left"/><br/>
 
-Nos aparecerá la siguiente pantalla de configuraciones, aquí elegimos la VPC que vamos a utilizar y la subnet pública. Damos click en siguiente tal y como aparecen las configuraciones hasta encontrar las configuraciones de grupos de seguridad.
-<img src="./images/e6.jpeg" align="left" width="1500" height="500" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
 Cuando estemos en las configuraciones de grupos de seguridad, nos aparecerá lo siguiente.
 <img src="./images/e7.jpeg" align="left" width="1500" height="500" style="margin-right: 15px;"/>
-- Elegimos la opción "Seleccionar un grupo de seguridad existente" y elegimos los grupos que previamente configuramos.
+- Elegimos la opción "Seleccionar un grupo de seguridad existente" y elegimos el grupo llamado proyecto2
 <br clear="left"/><br/>
 
 Damos siguiente hasta finalizar y lanzamos la instancia, aquí nos pedirá la llave con la que queremos lanzar la instancia. Colocamos la llave que hemos creado y la lanzamos.
 <img src="./images/e8.jpeg" align="left" width="1500" height="500" style="margin-right: 15px;"/>
 <br clear="left"/><br/>
 
-## Load Balancer
-### 1. Crear traget group
-Crearmos un target group y seleccionamos las instancias a las que queremos balancear con el load balancer.
-<img src="./images/b5.jpeg" align="left" width="1500" height="500" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
-### 2. Crear Balanceador
-Nos ubicamos en el servicio de Instancias EC2 y seleccionamos la opción de "Equilibrio de carga", aquí elegimos la opción "Balanceadores de carga". 
-Una vez dentro, nos aparecerá la siguiente pantalla, aquí damos click en la opción de "Crear balanceador de carga".
-<img src="./images/b1.jpeg" align="left" width="1500" height="500" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
-Elegimos la opción "Balanceador de carga de aplicaciones"
-<img src="./images/b2.jpeg" align="left" width="1500" height="500" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
-Aquí colocamos el nombre del balanceador y la VPC que vamos a utilizar, también habilitamos las zonas en las que  estará distribuyendo el balanceador
-<img src="./images/b3.jpeg" align="left" width="800" height="600" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
-También debemos configurar los grupos de seguridad que queremos utilizar y el target group que previamente creamos.
-<img src="./images/b4.jpeg" align="left" width="800" height="600" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
- Una vez configurado todo damos click en crear.
-
-## RDS
-
-### 1. Crear base de datos
-Primero nos dirigimos al servicio RDS.
-Seleccionamos la opción "Crear base de datos" y acontinuación nos parecerá la siguiente ventana.
-
-<img src="./images/r1.jpeg" align="left" width="600" height="500" style="margin-right: 15px;"/>
-Aquí elegimos la base de datos que deseamos crear, en este caso utilizamos mysql y elegimos la versión por defecto. 
-<br clear="left"/><br/>
-Acontinuación aparece la opción de método de pago y en este caso se eligió la opción de capa gratuita.
-<img src="./images/r2.jpeg" align="left" width="800" height="200" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
-Después llenamos los datos de configuración que piden
-<br clear="left"/><br/>
-<img src="./images/r3.jpeg" align="left" width="600" height="500" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-Y por último en las opciones de conectividad, elegimos la subred privada y la vpc a la que pertenece. Luego aceptamos todo y esperamos a que se cree nuestra base de datos.
-<br clear="left"/><br/>
-<img src="./images/r4.jpeg" align="left" width="600" height="500" style="margin-right: 15px;"/>
-<br clear="left"/><br/>
-
-### 2. Configurar acceso a la base de datos
-Una vez la base de datos ya se encuentre lista y desplegada, se procede a conectar con las EC2 que se van a utilizar
-<img src="./images/r5.jpeg" align="left" width="800" height="200" style="margin-right: 15px;"/>
-- Aquí procedemos a dirigirnos a la opción  de conectividad y seguridad de la base de datos y seleccionamos la opción "Grupos de seguridad de la vpc"
-<br clear="left"/><br/>
-
-<img src="./images/r4.jpeg" align="left" width="600" height="500" style="margin-right: 15px;"/>
-- Una vez dentro procedemos al apartado de "reglas de entrada" y elegimos agregamos 2 nuevas reglas de entrada, las cuales contendran las ipv4 privadas de las EC2 creadas anteriormente, esto para permitirle acceso a la base de datos a los servidores anteriormente desplegados. Estas configuraciones serán del protocolo TCP en el puerto 3306, ya que es el puerto en el que se puede acceder a mysql.
-<br clear="left"/><br/>
-
 ## S3
-Se crearon 2 Bucket uno para el alamacenamiento de 
+Se hizo uso de un solo bucket el cual almacena todas las imagenes que son subidas a la base de datos en la instancia mysql
 <br clear="left"/><br/>
 <img src="./images/r4.jpeg" align="left" width="600" height="500" style="margin-right: 15px;"/>
 <br clear="left"/><br/>
 
 # **Conclusiones**
 
-- Para la conexión de la arquitectura se aplicaron ciertas mezclas de los conocimientos adquiridos ya que en algunos casos para la conexión de estos se necesitaban de más configuraciones referentes a la seguridad, la cuál pudimos tomar ideas de otras configuraciones de los ejemplos vistos en clase.
-- Existen diversas opciones para la utilización de un servicio. En este proyecto nos limitamos al uso de las que se encuentran en la capa gratuita.
-- Se implementaron las tecnologías mencionadas anteriormente, debido a que se buscaba la creación de un sitio web que cumpliera con ciertas medidas de seguridad respecto al acceso de los datos.
+- Se utilizaron 3 instancias EC2 diferentes ya que para una sola, ejecutar 2 contenedores consecutivos consumia recursos, y esto hacia que la maquina comenzara a fallar.
+- El uso de docker hizo que no se tuviera que usar varias de las herramientas de AWS que se usaron en el primer proyecto, lo cual es una ventaja.
