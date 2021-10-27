@@ -32,7 +32,30 @@
     <mat-tab-group mat-align-tabs="center" color="white">
         <!--Datos Usuario-->
         <mat-tab label ="Datos Usuario">
-            <app-datos-usuario></app-datos-usuario>
+            <table id="acciones" class="Tabla">
+                <thead>
+                    <th>Nombre</th>
+                    <th>Usuario</th>
+                    <th>Contraseña</th>
+                    <th>Modo Bot</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      {{name}}
+                    </td>
+                    <td>
+                      {{user}}
+                    </td>
+                    <td>
+                      {{pass}}
+                    </td>
+                    <td>
+                      <button class="Botones" (click)="editarUsuario()" >{{modoBot}}</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
         </mat-tab>
         <!--Subir Archivo-->
         <mat-tab label="Publicaciones">

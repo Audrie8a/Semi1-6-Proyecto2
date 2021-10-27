@@ -41,6 +41,25 @@ exports.getUsuario =async(req,res)=>{
     }
 }
 
+
+ 
+exports.editUser =async(req,res)=>{
+    try {
+       const {idUser,modoBot}= req.body
+       let sql = `update usuario set chatbot=${modoBot} where idUser=${idUser}`;
+       
+       bd.query(sql, function(err, result){
+            if(err) return res.json("error");
+            return res.json("Editado Correctamente!");
+        }); 
+   
+       
+    } catch (error) {
+        console.log("Error al loguearse  => ", error)
+        res.json("error")
+    }
+}
+
 exports.manageFriends =async(req,res)=>{
     try {
        const {user1, user2, tipo}= req.body

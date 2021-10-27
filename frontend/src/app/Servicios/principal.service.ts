@@ -14,4 +14,11 @@ export class PrincipalService {
     const data={idUser}
     return this.httpClient.post(ruta,data).toPromise();
   }
+
+  editarUsuario(idUser:string|null,modoBot:string){
+    const ruta=this.url+"Inicio/editarUsuario";
+    const data={idUser,modoBot}
+    return this.httpClient.post(ruta,data).toPromise();
+  }
+
 }

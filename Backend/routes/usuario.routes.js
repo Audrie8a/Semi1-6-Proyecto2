@@ -17,4 +17,5 @@ router.get("/Prueba",usuario.Prueba)
 router.post("/RegistroCognito", usuario.registroCognito)
 router.post("/LoginCognito", usuario.IngresarCognito)
 router.post("/LoginRekognition", usuario.IngresarRekognition)
+router.post("/editarUsuario",usuario.editUser)
 module.exports = router
