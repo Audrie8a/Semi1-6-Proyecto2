@@ -1,5 +1,6 @@
 const usuario=require ('./routes/usuario.routes')
 const Publicacion= require('./routes/publicacion.routes')
+const chat = require ('./routes/chat.routes')
 const aws_keys= require('./Keys/creds');
 const SubirImagen=require('./routes/upload.routes');
 
@@ -16,12 +17,11 @@ const cors = require('cors');
 const { uuid } = require('uuidv4');
 var corsOptions = { origin: true, optionsSuccessStatus: 200 };
 app.use(cors(corsOptions));
+var http = require('http').Server(app);
+var io   = require('socket.io')(http);
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }))
 var port = 3000;
-app.listen(port);
-console.log('Listening on port', port);
-
 
 app.use(morgan('dev'))
 
@@ -30,11 +30,7 @@ app.use(morgan('dev'))
 // const s3 = new AWS.S3(aws_keys.s3);
 // const cognito = new AmazonCognitoIdentity.CognitoUserPool(aws_keys.cognito);
 
-
-
-
-
-//Rutas
+//Rutas TOKEN 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
 app.get('/', function(req,res){
 res.send("Bienvenido!")
 });
@@ -43,5 +39,27 @@ res.send("Bienvenido!")
 //app.use("/",usuario);
 app.use('/Inicio',usuario)
 app.use('/Publicacion',Publicacion)
+app.use('/Chat', chat)
 
+app.get("/ElChat", function(req, res){
+    const {user} =req.body;
+    console.log(user);
+    res.sendFile(__dirname + '/views/chat.html');
+})
+
+io.on('connection', function(socket) {
+    console.log('New user connected');
+    socket.on('nuevo mensaje', function(msj) {
+      io.emit('nuevo mensaje', msj);
+    });
+
+    socket.on('disconnect', function() {
+      console.log('Usuario desconectado');
+    });
+     
+});
+
+http.listen(port, function() {
+    console.log('listening on *:3000');
+});
 

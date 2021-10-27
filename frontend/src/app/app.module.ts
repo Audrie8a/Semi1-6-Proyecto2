@@ -26,6 +26,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { DatosUsuarioComponent } from './Componentes/datos-usuario/datos-usuario.component';
 import { PublicacionComponent } from './Componentes/publicacion/publicacion.component';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import { ChatComponent } from './Componentes/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {TextFieldModule} from '@angular/cdk/text-field';
     VerArchivosComponent,
     CamaraComponent,
     DatosUsuarioComponent,
-    PublicacionComponent
+    PublicacionComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
