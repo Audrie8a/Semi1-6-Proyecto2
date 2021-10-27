@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PublicacionService {
 
-  url:string="http://localhost:3000/";
+  url:string="http://54.204.241.187:3000/";
   constructor(private httpClient: HttpClient) { }
 
   crearPublicacion (Texto:string,Usuario:string | null,idFoto:string){

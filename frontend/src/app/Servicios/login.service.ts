@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginService {
 
-  url:string="http://localhost:3000/";//"bL-475949248.us-east-2.elb.amazonaws.com:3000/"
+  url:string="http://54.204.241.187:3000/";//"bL-475949248.us-east-2.elb.amazonaws.com:3000/"
   constructor(private httpClient: HttpClient) { }
 
   Ingresar(Usuario:string, Password:string ){
