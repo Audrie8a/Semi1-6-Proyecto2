@@ -3,7 +3,7 @@
   .FondoPublicacion  {
     position: relative;
     z-index: 1;
-    background: linear-gradient(rgba(95, 34, 112, 0.582),rgba(12, 1, 15, 0.123));
+    background: linear-gradient(rgba(35, 34, 112, 0.582),rgba(12, 1, 15, 0.123));
     max-width: 500px;
     margin: 0 auto 100px;
     padding: 20px;
@@ -112,7 +112,7 @@
     .FormPublicaciones input, .FormPublicaciones select{
       font-family: "Roboto", sans-serif;
       outline: 0;
-      background-color: #594f666c;
+      background-color: #514f666c;
       width: 600px;
       border: 0;
       margin: 0 0 15px;
@@ -156,7 +156,7 @@
     
   
     .Botones3{
-      background:linear-gradient(rgb(215, 177, 226),rgba(211, 128, 34, 0.171));
+      background:linear-gradient(rgb(188, 177, 226),rgba(34, 52, 211, 0.171));
       border: none;
       border-radius: 10px;
       box-shadow: 0 0 15px #ddd;

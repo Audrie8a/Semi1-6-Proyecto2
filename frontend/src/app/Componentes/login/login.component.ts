@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'src/app/Servicios/login.service';
 import { MatDialog,MatDialogConfig,MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CamaraComponent } from '../camara/camara.component';
+import { Foto } from 'src/app/Models/Foto';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  
   showMainContent: Boolean = false;
 
   fotoTomada:string="";
@@ -48,11 +49,16 @@ export class LoginComponent implements OnInit {
      if (this.fotoTomada2==''){
       respuesta = await this.loginService.Ingresar(this.Usuario, this.Passwords);
      }else{
+      
       respuesta= await this.loginService.IngresarFoto(this.Usuario,this.fotoTomada2);
       let json=JSON.stringify(respuesta)
       let imagen2= "data:image/jpeg;base64,"+JSON.parse(json).foto
       let imagen1= this.fotoTomada2;
-      respuesta= await this.loginService.IngresarFoto_Rekognition(imagen1,imagen2)
+      let fto=new Foto(imagen1,imagen2,"jpg","96")
+      this.loginService.IngresarFoto_Rekognition(fto).subscribe( data =>{
+        respuesta=data;
+        alert (data);
+      })
       console.log(respuesta);
        
      }

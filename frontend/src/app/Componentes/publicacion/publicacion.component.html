@@ -64,8 +64,7 @@
           </mat-card-content>
           <img mat-card-image src="{{publi.Arch}}" style="width: 350px; height: 350px; " >
           <mat-card-actions>
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
+            <button mat-button class="Botones" (click)="Traducir(publi.idArchivo,publi.texto)">Traducir</button>
           </mat-card-actions>
 
         </mat-card>

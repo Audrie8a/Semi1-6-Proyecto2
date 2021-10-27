@@ -7,4 +7,5 @@ router.post("/Publicar",publicacion.crearPublicacion);
 router.post("/getPublicaciones", publicacion.getPublicaciones);
 router.post("/getPublicacionesFiltradas",publicacion.getPublicacionesFiltradas);
 router.get("/getTags",publicacion.getTags);
+router.post("/Traducir",publicacion.Traducir);
 module.exports = router

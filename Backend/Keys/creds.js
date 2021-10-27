@@ -17,9 +17,9 @@ let aws_keys = {
         secretAccessKey: "4A85Eg01V2t2rDhcqDziwDMGRXFpqvkCtGq62vhm" 
     },
     translate: {
-        region: '',
-        accessKeyId: "",
-        secretAccessKey: "" 
+        region: 'us-east-2',
+        accessKeyId: "AKIA32PDN4JAVHJNCMOG",
+        secretAccessKey: "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" 
     },
     cognito4:{
         region:'us-east-2',

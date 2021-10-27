@@ -31,12 +31,15 @@ create table archivo(
 	idArchivo int not null auto_increment primary key,
 	texto varchar(500),
 	Arch varchar(300),
-    fecha date,
+    fecha datetime,
 	idUsu int,
 	CONSTRAINT fk_use FOREIGN KEY (idUsu)
         REFERENCES usuario (idUser)
 );
 
+
+ALTER TABLE archivo ADD CONSTRAINT fk_use FOREIGN KEY (idUsu)
+        REFERENCES usuario (idUser);
 
 create table tag(
 	idTag int not null auto_increment primary key,
@@ -90,13 +93,33 @@ END$$
 SELECT * FROM publicar;
 SELECT * FROM tag;
 SELECT * FROM archivo;
-SELECT * FROM usuario;
+SELECT idUser, (select now()), (select ye) as fecha FROM usuario order by fecha desc;
 SELECT * FROM amigo;
 
 
 -- Mostrar publicaciones
-SELECT * FROM archivo 
-WHERE idUsu IN (
+SELECT b.idArchivo,b.texto,b.Arch, b.fecha, a.usuario, a.foto FROM archivo as b, usuario as a
+WHERE a.idUser=b.idUsu 
+AND idUsu IN (
+select idUser from usuario
+where idUser in 
+(select user1 from amigo
+where user2=1
+and estado=0)
+or idUser in 
+(select user2 from amigo
+where user1=1
+and estado=0)
+or idUsu=1
+)
+order by fecha desc;
+-- Mostrar Publicaciones Filtradas
+SELECT b.texto,b.Arch, b.fecha, a.usuario, a.foto FROM archivo as b, usuario as a, publicar as p, tag as t
+WHERE a.idUser=b.idUsu 
+AND p.idArchivo=b.idArchivo
+AND p.idTag=t.idTag
+AND tag='Dog'
+AND idUsu IN (
 select idUser from usuario
 where idUser in 
 (select user1 from amigo
@@ -108,6 +131,7 @@ where user1=1
 and estado=0)
 or idUsu=1
 );
+
 -- Mostrar sugerencias
 select idUser, Concat(nombre,' ',apellido )as nombre,usuario, correo, contra, foto from usuario as u
 where idUser not in 

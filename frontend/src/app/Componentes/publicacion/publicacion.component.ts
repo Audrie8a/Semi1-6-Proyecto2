@@ -110,6 +110,21 @@ export class PublicacionComponent implements OnInit {
     this.Publicaciones=obj;
 
   }
+
+  async Traducir(id:string, texto:string){
+    let aux= await this.publicacionService.traducir(texto);
+    let json=JSON.stringify(aux)
+    let obj= JSON.parse(json);
+    var contador=0;
+    this.Publicaciones.forEach((element: { idArchivo: string; }) => {
+      if(element.idArchivo==id){
+        this.Publicaciones[contador].texto=obj.message.TranslatedText;
+        return;
+      }
+      contador++;
+    });
+    
+  }
   borrarFiltros(){
     this.ngOnInit();
   }

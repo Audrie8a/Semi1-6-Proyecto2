@@ -7,6 +7,7 @@ const aws_keys= require('../Keys/creds');
 var AWS = require('aws-sdk');
 const s3 = new AWS.S3(aws_keys.s3);
 const cognito = new AmazonCognitoIdentity.CognitoUserPool(aws_keys.cognito);
+const translate = new AWS.Translate(aws_keys.translate);
 const rek = new AWS.Rekognition(aws_keys.rekognition);
 const { uuid } = require('uuidv4');
 
@@ -53,7 +54,7 @@ exports.crearPublicacion =async(req,res)=>{
 exports.getPublicaciones =async(req,res)=>{
   try {
       var idUser = req.body.iduser;
-      let sql = `SELECT b.texto,b.Arch, b.fecha, a.usuario, a.foto FROM archivo as b, usuario as a
+      let sql = `SELECT b.idArchivo,b.texto,b.Arch, b.fecha, a.usuario, a.foto FROM archivo as b, usuario as a
       WHERE a.idUser=b.idUsu 
       AND idUsu IN (
       select idUser from usuario
@@ -92,7 +93,7 @@ exports.getPublicaciones =async(req,res)=>{
 exports.getPublicacionesFiltradas =async(req,res)=>{
   try {
       var idUser = req.body.iduser;
-      let sql = `SELECT b.texto,b.Arch, b.fecha, a.usuario, a.foto FROM archivo as b, usuario as a, publicar as p, tag as t
+      let sql = `SELECT b.idArchivo,b.texto,b.Arch, b.fecha, a.usuario, a.foto FROM archivo as b, usuario as a, publicar as p, tag as t
       WHERE a.idUser=b.idUsu 
       AND p.idArchivo=b.idArchivo
       AND p.idTag=t.idTag
@@ -169,6 +170,27 @@ exports.DetectarLabels= async (req, res)=> {
     });
   }
 
+exports.Traducir = async (req,res)=>{
+  let body = req.body
+
+  let text = body.text
+
+  let params = {
+    SourceLanguageCode: 'auto',
+    TargetLanguageCode: 'es',
+    Text: text || 'Hello there'
+  };
+  translate.translateText(params, function (err, data) {
+    if (err) {
+      console.log(err, err.stack);
+      res.send({ error: err })
+    } else {
+      console.log(data);
+      res.send({ message: data })
+    }
+  });
+
+}
   function SubirFoto(id, foto){
     //carpeta y nombre que quieran darle a la imagen
     try {

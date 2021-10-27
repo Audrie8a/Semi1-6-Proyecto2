@@ -32,4 +32,9 @@ export class PublicacionService {
     return this.httpClient.get(ruta).toPromise();
   }
   
+  traducir(text:string){
+    const ruta =this.url+"Publicacion/Traducir";
+    const data = {text};
+    return this.httpClient.post(ruta,data).toPromise();
+  }
 }
