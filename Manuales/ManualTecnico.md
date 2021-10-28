@@ -104,7 +104,145 @@ Se hizo uso de un solo bucket el cual almacena todas las imagenes que son subida
 <img src="./images/r4.jpeg" align="left" width="600" height="500" style="margin-right: 15px;"/>
 <br clear="left"/><br/>
 
-# **Conclusiones**
+## Cognito
 
-- Se utilizaron 3 instancias EC2 diferentes ya que para una sola, ejecutar 2 contenedores consecutivos consumia recursos, y esto hacia que la maquina comenzara a fallar.
-- El uso de docker hizo que no se tuviera que usar varias de las herramientas de AWS que se usaron en el primer proyecto, lo cual es una ventaja.
+1.	Dirigirse a Administrar grupo de usuarios
+<center>
+<br clear="left"/><br/>
+<img src="./images/co1.jpg" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+2.	Seleccionar la opción: Crear un grupo de usuarios
+<center>
+<br clear="left"/><br/>
+<img src="./images/co2.png" align="center" width="1000" height="130" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+
+3.	Colocar nombre y seleccionar “Recorrido por la configuración”
+<center>
+<br clear="left"/><br/>
+<img src="./images/co3.png" align="center" width="900" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+4.	Seleccionar que el inicio de sesión sea mediante el nombre de “Usuario”
+<center>
+<br clear="left"/><br/>
+<img src="./images/co4.png" align="center" width="800" height="200" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+5.	Se eligen los atributos del usuario y se da click en “Paso siguiente”
+<center>
+<br clear="left"/><br/>
+<img src="./images/co5.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+6.	Decidir como deseo que sea la contraseña y dejar que los usuarios puedan registrarse, luego dar click en “Paso Siguiente”
+<center>
+<br clear="left"/><br/>
+<img src="./images/co6.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+7.	Nos llevará a una nueva página, dejaremos todo por defecto
+<center>
+<br clear="left"/><br/>
+<img src="./images/co7.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+
+<br clear="left"/><br/>
+<img src="./images/co8.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+8.	Damos click en “Paso Siguiente”, nos aparecerá la siguiente ventana y también dejaremos todo por defecto.
+<center>
+<br clear="left"/><br/>
+<img src="./images/co9.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+9.	Damos click en  “No” y continuamos
+<center>
+<br clear="left"/><br/>
+<img src="./images/co10.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+10.	Nos aparecerá la siguiente ventana y daremos click en “Añadir un cliente de aplicación”
+<center>
+<br clear="left"/><br/>
+<img src="./images/co11.png" align="lecenterft" width="900" height="300" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+11.	Nos aparecerá la siguiente ventana, en la cual podremos agregar los accesos a los usuarios creados mediante cognito. Procedemos a colocar un nombre y habilitar la opción de autenticación mediante contraseña y nombre de usuario. También deshabilitamos la opción “Generar clave secreta del cliente”
+<center>
+<br clear="left"/><br/>
+<img src="./images/co12.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+12.	Damos click en “Crear un cliente de aplicación”
+<center>
+<br clear="left"/><br/>
+<img src="./images/co13.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+13.	Nos aparecerá la siguiente ventana, damos click en “Paso siguiente”
+<center>
+<br clear="left"/><br/>
+<img src="./images/co14.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+14.	Aquí nos aparecerán las siguientes opciones las cuales permiten activar una función lambda para usos específicos. Damos click en “Paso Siguiente”
+<center>
+<br clear="left"/><br/>
+<img src="./images/co15.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+15.	Nos mostrará un resumen de todas las configuraciones realizadas
+<center>
+<br clear="left"/><br/>
+<img src="./images/co16.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+16.	Por último damos click en “Crear grupo”
+<center>
+<br clear="left"/><br/>
+<img src="./images/co17.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+17.	Una vez creado el grupo nos aparecerá el Id del grupo y el ARN de grupo
+us-east-2_ImHx8w5i1
+<center>
+<br clear="left"/><br/>
+<img src="./images/co18.png" align="center" width="600" height="200" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+18.	También puedo revisar los datos del Cliente creado anteriormente en la opción de “Clientes de aplicación”. Aquí se encuentran datos para conectarnos desde le backend.
+<center>
+<br clear="left"/><br/>
+<img src="./images/co19.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+19.	Una vez finalizado el grupo de usuarios se procede a modificar los links para la verificación de la cuenta. En Configuración del cliente de aplicación agregamos una nueva url
+<center>
+<br clear="left"/><br/>
+<img src="./images/co20.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+20.	Y En el nombre del domino agregamos un nuevo dominio.
+<center>
+<br clear="left"/><br/>
+<img src="./images/co21.png" align="center" width="600" height="500" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+
+
+# **Usuarios IAM**
+<center>
+<br clear="left"/><br/>
+<img src="./images/user1.png" align="center" width="600" height="130" style="margin-right: 15px;"/>
+<img src="./images/user2.png" align="center" width="600" height="50" style="margin-right: 15px;"/>
+<br clear="left"/><br/>
+</center>
+
+Se utilizaron los siguientes usuarios:
+* Se utilizó el usuario Rekognition_user, este usuario otorga todos los permisos necesarios para el uso de la herramienta Rekognition.
+* Se utilizó el usuario s3_user, este usuario otorga todos los permisos necesarios para el uso de la herramienta S3.
+* Se utilizó el usuario usuarioTranslate, este usuario otorga todos los permisos necesarios para el uso de la herramienta Translate.
