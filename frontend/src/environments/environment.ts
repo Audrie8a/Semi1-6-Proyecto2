@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  urlFotoRekognition: 'https://rn9hsec7xh.execute-api.us-east-2.amazonaws.com/Pru'
+  urlFotoRekognition: 'https://l621qajw20.execute-api.us-east-2.amazonaws.com/Pru'
 };
 
 /*

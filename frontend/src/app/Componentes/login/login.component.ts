@@ -48,33 +48,48 @@ export class LoginComponent implements OnInit {
       let respuesta: Object='';
      if (this.fotoTomada2==''){
       respuesta = await this.loginService.Ingresar(this.Usuario, this.Passwords);
+      if(respuesta==='false'){
+        this.linkRouter='/Home'
+        alert("Error al ingresar, favor revise sus datos!")
+       }else if (respuesta=='error'){
+        this.linkRouter='/Home'
+        alert("Se produjo un error al ingresar!")
+       }else{
+        this.borrarRegistro();
+        alert("Bienvenido "+respuesta)
+        this.linkRouter='/User';
+        this._router.navigate([this.linkRouter,respuesta]);
+       }
      }else{
       
       respuesta= await this.loginService.IngresarFoto(this.Usuario,this.fotoTomada2);
       let json=JSON.stringify(respuesta)
       let imagen2= "data:image/jpeg;base64,"+JSON.parse(json).foto
       let imagen1= this.fotoTomada2;
-      let fto=new Foto(imagen1,imagen2,"jpg","96")
+      let fto=new Foto(imagen1,imagen2,"jpg","99")
       this.loginService.IngresarFoto_Rekognition(fto).subscribe( data =>{
-        respuesta=data;
-        alert (data);
+        let json=JSON.stringify(data);
+        let obj= JSON.parse(json)
+        respuesta= obj.body
+        if(respuesta==undefined){
+          this.linkRouter='/Home'
+          alert("Error al ingresar, la foto no cumple con el porcentaje de certeza requerido!")
+          this.borrarRegistro();
+         }else if (respuesta=='error'){
+          this.linkRouter='/Home'
+          alert("Se produjo un error al ingresar!")
+         }else{
+          alert("Bienvenido Usuario: "+this.Usuario)
+          this.borrarRegistro();
+          this.linkRouter='/User';
+          this._router.navigate([this.linkRouter,respuesta]);
+         }
       })
-      console.log(respuesta);
+      
        
      }
 
-     if(respuesta==='false'){
-      this.linkRouter='/Home'
-      alert("Error al ingresar, favor revise sus datos!")
-     }else if (respuesta=='error'){
-      this.linkRouter='/Home'
-      alert("Se produjo un error al ingresar!")
-     }else{
-      this.borrarRegistro();
-      alert("Bienvenido "+respuesta)
-      this.linkRouter='/User';
-      this._router.navigate([this.linkRouter,respuesta]);
-     }
+     
      
    }
 
